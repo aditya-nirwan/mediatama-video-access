@@ -1,0 +1,6 @@
+*
+!.gitignore
+!videos/
+videos/*
+!videos/.gitkeep
+!videos/sample-*.mp4
