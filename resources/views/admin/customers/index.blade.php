@@ -41,17 +41,15 @@
                         </td>
                         <td class="px-4 py-3">
                             @if ($customer->is_active)
-                                <span class="rounded-lg bg-emerald-100 px-2 py-1 text-xs text-emerald-800">Aktif</span>
+                                <x-badge color="green">Aktif</x-badge>
                             @else
-                                <span class="rounded-lg bg-gray-200 px-2 py-1 text-xs text-gray-700">Nonaktif</span>
+                                <x-badge>Nonaktif</x-badge>
                             @endif
                         </td>
                         <td class="hidden px-4 py-3 lg:table-cell">
                             {{ $customer->active_access_count }}
                             @if ($customer->pending_request_count > 0)
-                                <span class="ml-1 rounded-lg bg-amber-100 px-2 py-1 text-xs text-amber-800">
-                                    {{ $customer->pending_request_count }} request
-                                </span>
+                                <x-badge color="amber">{{ $customer->pending_request_count }} request</x-badge>
                             @endif
                         </td>
                         <td class="px-4 py-3">
