@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {
-        //
+    ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->render(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, \Illuminate\Http\Request $request) {
+            return back()->withInput()->withErrors([
+                'file' => 'Ukuran file melebihi batas server. Maksimal 64 MB.',
+            ]);
+        });
     })->create();
