@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboard;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,7 @@ Route::middleware('auth')->group(function (): void {
         ->name('admin.')
         ->group(function (): void {
             Route::get('dashboard', AdminDashboard::class)->name('dashboard');
+            Route::resource('customers', CustomerController::class)->except('show');
         });
 
     Route::middleware('role:customer')
