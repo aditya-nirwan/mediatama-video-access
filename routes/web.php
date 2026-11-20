@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboard;
+use App\Http\Controllers\Customer\AccessRequestController as CustomerAccessRequest;
+use App\Http\Controllers\Customer\VideoController as CustomerVideoIndex;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VideoStreamController;
 use App\Http\Controllers\WatchController;
@@ -37,6 +39,8 @@ Route::middleware('auth')->group(function (): void {
         ->name('customer.')
         ->group(function (): void {
             Route::get('dashboard', CustomerDashboard::class)->name('dashboard');
+            Route::get('videos', CustomerVideoIndex::class)->name('videos.index');
+            Route::post('videos/{video}/request', CustomerAccessRequest::class)->name('videos.request');        
         });
         
 });

@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? config('app.name') }}</title>
+    <title>{{ $title ? $title.' - '.config('app.name') : config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-gray-100 text-gray-900 antialiased">
-        <nav class="border-b border-gray-200 bg-white">
+    <nav class="border-b border-gray-200 bg-white">
         <div class="mx-auto max-w-6xl px-4">
             <div class="flex items-center justify-between gap-4 py-3">
                 <a href="{{ route('home') }}" class="text-sm font-medium">
@@ -30,20 +30,27 @@
                 </div>
             </div>
 
-            @if (auth()->user()->isAdmin())
-                <div class="flex gap-1 overflow-x-auto pb-2 text-sm">
-                    @foreach ([
-                        'admin.dashboard' => 'Dashboard',
-                        'admin.customers.index' => 'Customer',
-                        'admin.videos.index' => 'Video',
-                    ] as $route => $label)
-                        <a href="{{ route($route) }}"
-                           class="whitespace-nowrap rounded-lg px-3 py-1.5 {{ request()->routeIs(Str::beforeLast($route, '.').'.*') ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
-                </div>
-            @endif
+            @php
+                $navItems = auth()->user()->isAdmin()
+                    ? [
+                        ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'pattern' => 'admin.dashboard'],
+                        ['route' => 'admin.customers.index', 'label' => 'Customer', 'pattern' => 'admin.customers.*'],
+                        ['route' => 'admin.videos.index', 'label' => 'Video', 'pattern' => 'admin.videos.*'],
+                    ]
+                    : [
+                        ['route' => 'customer.dashboard', 'label' => 'Dashboard', 'pattern' => 'customer.dashboard'],
+                        ['route' => 'customer.videos.index', 'label' => 'Video', 'pattern' => 'customer.videos.*'],
+                    ];
+            @endphp
+
+            <div class="flex gap-1 overflow-x-auto pb-2 text-sm">
+                @foreach ($navItems as $item)
+                    <a href="{{ route($item['route']) }}"
+                        class="whitespace-nowrap rounded-lg px-3 py-1.5 {{ request()->routeIs($item['pattern']) ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+                        {{ $item['label'] }}
+                    </a>
+                @endforeach
+            </div>
         </div>
     </nav>
 
