@@ -1,2 +1,5 @@
 *
 !.gitignore
+!thumbnails/
+thumbnails/*
+!thumbnails/sample-*.png

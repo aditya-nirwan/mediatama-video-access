@@ -32,6 +32,8 @@ class VideoSeeder extends Seeder
                 continue;
             }
 
+            $thumbnailPath = 'thumbnails/'.pathinfo($fileName, PATHINFO_FILENAME).'.png';
+
             Video::create([
                 'title' => $title,
                 'slug' => Str::slug($title),
@@ -43,6 +45,7 @@ class VideoSeeder extends Seeder
                 'duration_seconds' => $duration,
                 'uploaded_by' => $admin->id,
                 'is_published' => true,
+                'thumbnail_path' => Storage::disk('public')->exists($thumbnailPath) ? $thumbnailPath : null,
             ]);
         }
     }
