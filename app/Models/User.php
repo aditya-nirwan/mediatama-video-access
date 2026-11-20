@@ -78,4 +78,13 @@ class User extends Authenticatable
     {
         return $query->where('role', UserRole::Customer);
     }
+
+    public function activeAccessFor(Video $video): ?VideoAccess
+    {
+        return $this->videoAccesses()
+            ->active()
+            ->where('video_id', $video->id)
+            ->orderByDesc('expires_at')
+            ->first();
+    }
 }
