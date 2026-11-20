@@ -96,7 +96,7 @@ aplikasi.
 ### 3. Pasang proyek
 
 ```bash
-git clone https://github.com/USERNAME/mediatama-video-access.git
+git clone https://github.com/aditya-nirwan/mediatama-video-access.git
 cd mediatama-video-access
 
 composer install
