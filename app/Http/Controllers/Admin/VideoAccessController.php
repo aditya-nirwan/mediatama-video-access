@@ -26,7 +26,7 @@ class VideoAccessController extends Controller
         $filter = $request->query('filter', 'active');
 
         $accesses = VideoAccess::query()
-            ->with(['user', 'video', 'granter'])
+            ->with(['user', 'video', 'granter', 'watchLog'])
             ->when($filter === 'active', fn ($query) => $query->active())
             ->when($filter === 'expired', fn ($query) => $query
                 ->whereNull('revoked_at')

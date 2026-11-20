@@ -8,8 +8,10 @@ use App\Models\User;
 use App\Models\Video;
 use App\Enums\UserRole;
 use App\Models\VideoAccess;
+use App\Models\WatchLog;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use DomainException;
 
 class VideoAccessService
@@ -146,5 +148,24 @@ class VideoAccessService
         if ($accessRequest->status !== RequestStatus::Pending) {
             throw new DomainException('Permintaan ini sudah diproses sebelumnya.');
         }
+    }
+
+    public function logWatch(VideoAccess $access, ?string $ip, ?string $userAgent): WatchLog
+    {
+        $log = WatchLog::firstOrNew(['video_access_id' => $access->id]);
+
+        if (! $log->exists) {
+            $log->user_id = $access->user_id;
+            $log->video_id = $access->video_id;
+            $log->first_watched_at = now();
+        }
+
+        $log->watch_count = $log->watch_count + 1;
+        $log->last_watched_at = now();
+        $log->ip_address = $ip;
+        $log->user_agent = Str::limit((string) $userAgent, 250, '');
+        $log->save();
+
+        return $log;
     }
 }

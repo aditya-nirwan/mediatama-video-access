@@ -12,6 +12,7 @@ use App\Http\Controllers\Customer\VideoController as CustomerVideoIndex;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VideoStreamController;
 use App\Http\Controllers\WatchController;
+use App\Http\Controllers\WatchProgressController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function (): void {
@@ -26,6 +27,7 @@ Route::middleware('auth')->group(function (): void {
 
     Route::get('videos/{video}/watch', WatchController::class)->name('videos.watch');
     Route::get('videos/{video}/stream', VideoStreamController::class)->name('videos.stream');
+    Route::post('videos/{video}/progress', WatchProgressController::class)->name('videos.progress');
 
     Route::middleware('role:admin')
         ->prefix('admin')

@@ -38,6 +38,15 @@
                             Diberikan oleh {{ $access->granter->name }}
                             &middot; {{ $access->access_request_id ? 'dari permintaan customer' : 'langsung oleh admin' }}
                         </p>
+                        @if ($access->watchLog)
+                            <p class="mt-1 text-sm text-gray-600">
+                                Ditonton {{ $access->watchLog->watch_count }} kali
+                                &middot; terakhir {{ $access->watchLog->last_watched_at->diffForHumans() }}
+                                &middot; posisi {{ gmdate('i:s', $access->watchLog->last_position_seconds) }}
+                            </p>
+                        @else
+                            <p class="mt-1 text-sm text-gray-500">Belum pernah ditonton</p>
+                        @endif                        
                     </div>
 
                     <div class="flex flex-col items-end gap-2">
