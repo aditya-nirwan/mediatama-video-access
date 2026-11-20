@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\VideoController;
+use App\Http\Controllers\Admin\AccessRequestController;
+use App\Http\Controllers\Admin\VideoAccessController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboard;
 use App\Http\Controllers\Customer\AccessRequestController as CustomerAccessRequest;
 use App\Http\Controllers\Customer\VideoController as CustomerVideoIndex;
@@ -32,6 +34,15 @@ Route::middleware('auth')->group(function (): void {
             Route::get('dashboard', AdminDashboard::class)->name('dashboard');
             Route::resource('customers', CustomerController::class)->except('show');
             Route::resource('videos', VideoController::class)->except('show');
+            
+            Route::get('requests', [AccessRequestController::class, 'index'])->name('requests.index');
+            Route::post('requests/{accessRequest}/approve', [AccessRequestController::class, 'approve'])->name('requests.approve');
+            Route::post('requests/{accessRequest}/reject', [AccessRequestController::class, 'reject'])->name('requests.reject');
+
+            Route::get('accesses', [VideoAccessController::class, 'index'])->name('accesses.index');
+            Route::post('accesses', [VideoAccessController::class, 'store'])->name('accesses.store');
+            Route::post('accesses/{access}/extend', [VideoAccessController::class, 'extend'])->name('accesses.extend');
+            Route::delete('accesses/{access}', [VideoAccessController::class, 'destroy'])->name('accesses.destroy');
         });
 
     Route::middleware('role:customer')

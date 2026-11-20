@@ -36,6 +36,8 @@
                         ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'pattern' => 'admin.dashboard'],
                         ['route' => 'admin.customers.index', 'label' => 'Customer', 'pattern' => 'admin.customers.*'],
                         ['route' => 'admin.videos.index', 'label' => 'Video', 'pattern' => 'admin.videos.*'],
+                        ['route' => 'admin.requests.index', 'label' => 'Request', 'pattern' => 'admin.requests.*'],
+                        ['route' => 'admin.accesses.index', 'label' => 'Akses', 'pattern' => 'admin.accesses.*'],
                     ]
                     : [
                         ['route' => 'customer.dashboard', 'label' => 'Dashboard', 'pattern' => 'customer.dashboard'],
